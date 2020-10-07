@@ -60,7 +60,10 @@ import { Vue, Component } from 'vue-property-decorator';
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
-  links = [{ path: '/', icon: 'fas fa-home', name: 'Home' }];
+  links = [
+    { path: '/', icon: 'fas fa-home', name: 'Home' },
+    { path: '/monitoring', icon: 'fas fa-chart-line', name: 'Monitoring' }
+  ];
 
   menuClicked(path: string) {
     this.$router.push(path);
