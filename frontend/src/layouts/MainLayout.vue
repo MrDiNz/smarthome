@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout>
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -10,12 +10,11 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
+        <q-space />
         <q-toolbar-title>
-          Quasar App
+          MrDiNz SmartHome
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-space />
       </q-toolbar>
     </q-header>
 
@@ -29,20 +28,26 @@
         <q-item-label class="text-grey-8" header>
           Menu
         </q-item-label>
-        <q-item v-for="link in links" :key="link.path">
-          <q-item-section v-if="link.icon" avatar>
-            <q-icon :name="link.icon" />
-          </q-item-section>
+        <div
+          v-for="link in links"
+          :key="link.path"
+          @click="menuClicked(link.path)"
+        >
+          <q-item>
+            <q-item-section v-if="link.icon" avatar>
+              <q-icon :name="link.icon" />
+            </q-item-section>
 
-          <q-item-section>
-            <q-item-label>{{ link.name }}</q-item-label>
-          </q-item-section>
-        </q-item>
+            <q-item-section>
+              <q-item-label>{{ link.name }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view class="q-pt-sm" />
     </q-page-container>
   </q-layout>
 </template>
@@ -56,5 +61,9 @@ import { Vue, Component } from 'vue-property-decorator';
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   links = [{ path: '/', icon: 'fas fa-home', name: 'Home' }];
+
+  menuClicked(path: string) {
+    this.$router.push(path);
+  }
 }
 </script>

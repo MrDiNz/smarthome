@@ -1,47 +1,34 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page>
+    {{ datas }}
+    <div class="row">
+      <q-card
+        class="col-auto q-pa-sm q-ma-sm"
+        v-for="(data, i) in datas"
+        :key="i"
+      >
+        <q-icon name="fas fa-lightbulb" size="md" />
+        <q-card-actions>
+          <q-btn>test</q-btn>
+        </q-card-actions>
+      </q-card>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ClassComponent.vue';
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component({
-  components: { ExampleComponent }
+  components: {}
 })
 export default class PageIndex extends Vue {
-  todos: Todo[] = [
-    {
-      id: 1,
-      content: 'ct1'
-    },
-    {
-      id: 2,
-      content: 'ct2'
-    },
-    {
-      id: 3,
-      content: 'ct3'
-    },
-    {
-      id: 4,
-      content: 'ct4'
-    },
-    {
-      id: 5,
-      content: 'ct5'
-    }
-  ];
-  meta: Meta = {
-    totalCount: 1200
-  };
-};
+  datas = {};
+  mounted() {
+    this.$axios.get('http://smart.pakorns.com/get-state').then(res => {
+      console.log(res);
+      this.datas = res.data.payload;
+    });
+  }
+}
 </script>
