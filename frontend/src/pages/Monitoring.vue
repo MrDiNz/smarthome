@@ -1,6 +1,6 @@
 <template>
   <div id="Monitoring">
-    mmmm
+    Coming Soon
   </div>
 </template>
 

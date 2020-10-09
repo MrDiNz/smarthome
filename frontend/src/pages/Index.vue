@@ -1,5 +1,21 @@
 <template>
   <q-page>
+    <div class="row justify-end">
+      <q-card class="col-auto row q-pa-sm items-center">
+        <q-icon
+          class="col-auto"
+          name="fas fa-thermometer-three-quarters"
+          size="lg"
+        />
+        <div class="col-auto text-h6 q-pa-sm">
+          {{ tempAndHum.temperature }}°C
+        </div>
+        <q-icon class="col-auto" name="fas fa-tint" size="lg" />
+        <div class="col-auto text-h6 q-pa-sm">
+          {{ tempAndHum.humidity }}
+        </div>
+      </q-card>
+    </div>
     <div class="row">
       <q-card
         v-for="(data, i) in datas"
@@ -33,24 +49,34 @@ import { Vue, Component } from 'vue-property-decorator';
 })
 export default class PageIndex extends Vue {
   datas = {};
+  tempAndHum = {};
 
   mounted() {
     this.$q.loading.show();
+    this.getState();
     setInterval(() => {
       this.getState();
-    }, 2500);
+    }, 5000);
   }
 
-  getState() {
-    this.$axios
+  async getState() {
+    await this.$axios
+      .get('http://smart.pakorns.com/get-temp')
+      .then(res => {
+        console.log(res);
+        this.tempAndHum = res.data.payload;
+      })
+      .finally(() => {});
+
+    await this.$axios
       .get('http://smart.pakorns.com/get-state')
       .then(res => {
         console.log(res);
         this.datas = res.data.payload;
       })
-      .finally(() => {
-        this.$q.loading.hide();
-      });
+      .finally(() => {});
+
+    await this.$q.loading.hide();
   }
 
   lightControllerBtnClicked(data: any) {
@@ -68,7 +94,6 @@ export default class PageIndex extends Vue {
       })
       .finally(() => {
         this.getState();
-        this.$q.loading.hide();
       });
   }
 }

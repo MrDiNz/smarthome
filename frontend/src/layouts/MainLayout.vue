@@ -10,11 +10,9 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-space />
         <q-toolbar-title>
           MrDiNz SmartHome
         </q-toolbar-title>
-        <q-space />
       </q-toolbar>
     </q-header>
 
@@ -31,6 +29,7 @@
         <div
           v-for="link in links"
           :key="link.path"
+          class="cursor-pointer"
           @click="menuClicked(link.path)"
         >
           <q-item>
